@@ -15,10 +15,14 @@ export default function BugEffectLoop() {
 
   useEffect(() => {
     setCount(count + 1);
-  });
+  }, []);
 
   return <p>Bug 1 Count: {count}</p>;
 }
 
 // Explanation:
-// (Write your explanation here)
+/*
+   The effect had no dependency array,
+   so it re-ran after every render and kept updating the count.
+   I added [] so it runs once on mount
+*/
