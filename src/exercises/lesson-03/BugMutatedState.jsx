@@ -13,8 +13,7 @@ export default function BugMutatedState() {
   let [count, setCount] = useState(0);
 
   function handleAdd() {
-    count++;
-    setCount(count);
+    setCount(count + 1);
   }
 
   return (
@@ -26,4 +25,9 @@ export default function BugMutatedState() {
 }
 
 // Explanation:
-// (Write your explanation here)
+/*
+  count++ mutated the state variable directly instead of letting
+  React update it. State should be treated as read-only.
+  I fixed it by calling setCount(count + 1),
+  which gives React a new value so it re-renders.
+*/
