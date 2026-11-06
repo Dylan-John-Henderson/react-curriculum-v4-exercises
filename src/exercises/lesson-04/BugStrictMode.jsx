@@ -7,9 +7,11 @@ export default function BugStrictMode() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       setCount((c) => c + 1);
     }, 1000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -20,4 +22,12 @@ export default function BugStrictMode() {
   );
 }
 
-// Write your explanation of how StrictMode helps us catch this bug
+// StrictMode mounts the component, runs the effect, cleans it up, and runs it
+// again. Since the original effect had no cleanup, the first interval kept
+// running, so two intervals were incrementing the count and it went up by 2.
+//
+// Fix:
+// I saved the ID that setInterval returns in a variable, then returned a
+// cleanup function from useEffect that passes that ID to clearInterval.
+// React now stops the old timer before starting a new one, so only one
+// interval runs at a time and the count goes up by 1 each second.

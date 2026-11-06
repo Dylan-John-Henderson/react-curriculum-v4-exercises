@@ -6,7 +6,8 @@ export default function BugEventPropagation() {
     alert("RED BOX CLICKED ❌ Don't show me!");
   }
 
-  function handleInnerClick() {
+  function handleInnerClick(event) {
+    event.stopPropagation();
     alert('Button Clicked ✅');
   }
 
@@ -22,3 +23,9 @@ export default function BugEventPropagation() {
     </>
   );
 }
+
+// Click events bubble: after the button's handler runs, the event travels up
+// to its parent, so the red box's handler fired too and showed two alerts.
+// I added event.stopPropagation() to the button's handler so the event stops
+// there. Clicking inside the red box but outside the button still triggers
+// the outer alert, since that click never passes through the button.
